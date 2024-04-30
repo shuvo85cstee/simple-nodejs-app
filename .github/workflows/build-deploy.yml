@@ -36,11 +36,14 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       
       # Build, tag, and push image to Docker hub
-      - name: Build, tag, and push API Docker image to docker hub
-        env:
-          REGISTRY: shuvo85cisco
-          REPOSITORY: node-demo
-          IMAGE_TAG: ${{ steps.vars.outputs.sha_short }}
-        run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f Dockerfile .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      # - name: Build, tag, and push API Docker image to docker hub
+      #   env:
+      #     REGISTRY: shuvo85cisco
+      #     REPOSITORY: node-demo
+      #     IMAGE_TAG: ${{ steps.vars.outputs.sha_short }}
+      #   run: |
+      #     docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f Dockerfile .
+      #     docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+      - name: Connect to GKE Cluster
+        run: gcloud container clusters get-credentials ${{ vars.GKE_CLUSTER_NAME }} --region ${{ vars.REGION } --project ${{ vars.PROJECT }}
