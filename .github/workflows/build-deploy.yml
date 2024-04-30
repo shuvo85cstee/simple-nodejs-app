@@ -16,6 +16,17 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+      
+      - name: Set short SHA output
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Set Helm env
+        id: helm_env
+        run: |
+          echo "helm_environment=${{ inputs.environment }}" >> $GITHUB_OUTPUT
+          echo branch: ${{ github.head_ref || github.ref_name }}
+          echo environment: ${{ inputs.environment }}
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
@@ -35,5 +46,5 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.vars.outputs.sha_short }}
           labels: ${{ steps.meta.outputs.labels }}
