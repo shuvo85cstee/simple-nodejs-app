@@ -57,6 +57,6 @@ jobs:
             --install \
             --set image.tag=$IMAGE_TAG \
             --namespace node-demo \
-            -create-namespace \
+            --create-namespace \
             --wait
       
