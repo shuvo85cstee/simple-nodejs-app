@@ -41,7 +41,7 @@ jobs:
           REPOSITORY: node-demo
           IMAGE_TAG: ${{ steps.vars.outputs.sha_short }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f DockerFile.api .
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f DockerFile .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
      
       # - name: Extract metadata (tags, labels) for Docker
