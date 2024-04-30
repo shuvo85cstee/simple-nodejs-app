@@ -13,6 +13,7 @@ jobs:
     runs-on: self-hosted
     environment:
       name: ${{ inputs.environment }}
+    
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -34,7 +35,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       
-      # Build, tag, and push the API Docker image
+      # Build, tag, and push image to Docker hub
       - name: Build, tag, and push API Docker image to docker hub
         env:
           REGISTRY: shuvo85cisco
