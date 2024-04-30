@@ -53,7 +53,7 @@ jobs:
           HELM_ENVIRONMENT: ${{ steps.helm_env.outputs.helm_environment }}
         run: |
           helm upgrade $NAME node-demo/ \
-            --values node-demo/values.yaml \
+            --values node-demo/$HELM_ENVIRONMENT-values.yaml \
             --install \
             --set image.tag=$IMAGE_TAG \
             --wait
