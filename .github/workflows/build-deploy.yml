@@ -45,5 +45,16 @@ jobs:
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f Dockerfile .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-      - name: Connect to GKE Cluster
-        run: gcloud container clusters get-credentials ${{ vars.GKE_CLUSTER_NAME }} --region ${{ vars.REGION } --project ${{ vars.PROJECT }}
+      - name: Deploy Helm Chart
+        env:
+          NAME: node-demo
+          IMAGE_TAG: ${{ steps.vars.outputs.sha_short }}
+          WORKER_IMAGE_TAG: ${{ steps.vars.outputs.sha_short }}
+          HELM_ENVIRONMENT: ${{ steps.helm_env.outputs.helm_environment }}
+        run: |
+          helm upgrade $NAME node-demo/ \
+            --values node-demo/values.yaml \
+            --install \
+            --set image.tag=$IMAGE_TAG \
+            --wait
+      
